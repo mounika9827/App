@@ -29,7 +29,7 @@ const Login = () => {
             <Text>Custom Content Inside</Text>
           </View>
         </CustomCard> */}
-        {/* <CustomActivityIndicator isLoading={true} message="Order Placed" /> */}
+        <CustomActivityIndicator isLoading={true} message="Order Placed" />
         {/* <CustomToast message='Ok you can proceed'/> */}
       {/* </View> */}
     </View>
