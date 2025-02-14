@@ -1,60 +1,93 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
 import CustomButton from '../../../components/CustomButton';
-import CustomCard from '../../../components/CustomCard';
-import CustomActivityIndicator from '../../../components/CustomActivityIndicator';
-import CustomToast from '../../../components/Toast';
+import CustomTextInput from '../../../components/TextInput';
+import {useNavigation} from '@react-navigation/native';
+import {BottomTab} from '../../../navigation/stacks/bottomTab';
 
 const Login = () => {
+  const navigation = useNavigation();
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [usernameError, setUsernameError] = React.useState('');
+  const [passwordError, setPasswordError] = React.useState('');
+
+  const handleSubmit = () => {
+    if (!username || !password) {
+      setPasswordError(password ? '' : 'Password is required');
+      setUsernameError(username ? '' : 'Username is required');
+    } else {
+      setUsernameError('');
+      setPasswordError('');
+      console.log('Form submitted');
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
+    }
+  };
+
+  const handleUsernameChange = (text: string) => {
+    if (/^[0-9]*$/.test(text)) {
+      setUsername(text);
+      setUsernameError('');
+    } else {
+      setUsernameError('Username should contain only numbers');
+    }
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    setPasswordError('');
+  };
+
   return (
     <View style={styles.container}>
-      {/* Heading Text */}
       <Text style={styles.text}>Login</Text>
 
-      {/* Login Button */}
-      <CustomButton
-        title="Login"
-        onPress={() => console.log('Button Pressed')}
-      />
+      <View style={styles.inputContainer}>
+        <CustomTextInput
+          label="Username"
+          value={username}
+          onChangeText={handleUsernameChange}
+          placeholder="Enter your username"
+          error={usernameError}
+        />
+        <CustomTextInput
+          label="Password"
+          value={password}
+          onChangeText={handlePasswordChange}
+          placeholder="Enter your password"
+          error={passwordError}
+          secureTextEntry={true}
+        />
+      </View>
 
-      {/* Cards Section */}
-      {/* <View style={styles.cardContainer}>
-        <CustomCard
-          title="Card Title"
-          description="This is a custom card component."
-        /> */}
-
-        {/* <CustomCard title="Another Card">
-          <View style={styles.customContent}>
-            <Text>Custom Content Inside</Text>
-          </View>
-        </CustomCard> */}
-        <CustomActivityIndicator isLoading={true} message="Order Placed" />
-        {/* <CustomToast message='Ok you can proceed'/> */}
-      {/* </View> */}
+      <CustomButton title="Login" onPress={handleSubmit} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: 'EBGaramond-Italic',
-    color: 'black',
+    fontFamily: 'EBGaramond-Bold',
+    color: 'purple',
+    fontSize: 24,
+    marginBottom: 20,
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center',
+    paddingHorizontal: 20,
   },
-  cardContainer: {
+  inputContainer: {
     width: '100%',
-    marginTop: 20,
+    marginBottom: 20,
   },
-  customContent: {
-    backgroundColor: 'lightgray',
-    padding: 10,
-    borderRadius: 8,
+  button: {
+    marginTop: 'auto',
+    width: '100%',
   },
 });
 

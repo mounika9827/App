@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 150,
     paddingVertical: 12,
     borderRadius: 24,
-    backgroundColor: 'blue',
+    backgroundColor: 'gold',
   },
   disabledButton: {
     backgroundColor: 'gray',
